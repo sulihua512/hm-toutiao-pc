@@ -1,5 +1,7 @@
 <template>
- <div id="app">根组件</div>
+ <div id="app">
+    <el-button type="primary">主要按钮</el-button>
+ </div>
 </template>
 
 <script>
