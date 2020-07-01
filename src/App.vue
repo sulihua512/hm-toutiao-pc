@@ -1,6 +1,7 @@
 <template>
  <div id="app">
-    <el-button type="primary">主要按钮</el-button>
+   <!-- 一级路由组件显示的位置 -->
+  <router-view></router-view>
  </div>
 </template>
 
