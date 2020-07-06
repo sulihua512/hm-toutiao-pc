@@ -65,7 +65,10 @@
         </el-dropdown>
       </el-header>
       <!-- 主体内容 -->
-      <el-main>Main</el-main>
+      <el-main>
+           <!-- 二级路由对应组件显示的容器 -->
+          <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>

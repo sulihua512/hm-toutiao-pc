@@ -5,6 +5,7 @@ import Vue from 'vue'
 // 准备路由配置对象
 import Login from '../views/Login.vue'
 import Home from '../views/Home.vue'
+import Welcome from '../views/Welcome.vue'
 
 // 注册路由
 Vue.use(VueRouter)
@@ -14,7 +15,15 @@ const routes = [
   // 登录
   { path: '/login', component: Login },
   // 首页
-  { path: '/', component: Home }
+  {
+    path: '/',
+    component: Home,
+    // 二级路由规则
+    children: [
+      // 欢迎页面
+      { path: '/', component: Welcome }
+    ]
+  }
 ]
 
 // 初始化路由实例
