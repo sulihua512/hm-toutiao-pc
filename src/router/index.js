@@ -7,6 +7,7 @@ import Login from '../views/Login.vue'
 import Home from '../views/Home.vue'
 import Welcome from '../views/Welcome.vue'
 import auth from '@/utils/auth'
+import NotFound from '../views/404.vue'
 
 // 注册路由
 Vue.use(VueRouter)
@@ -24,7 +25,9 @@ const routes = [
       // 欢迎页面
       { path: '/', component: Welcome }
     ]
-  }
+  },
+  // 通配规则，匹配以上规则没处理的 路径
+  { path: '*', component: NotFound }
 ]
 
 // 初始化路由实例
