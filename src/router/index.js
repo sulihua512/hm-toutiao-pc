@@ -8,6 +8,7 @@ import Home from '../views/Home.vue'
 import Welcome from '../views/Welcome.vue'
 import auth from '@/utils/auth'
 import NotFound from '../views/404.vue'
+import Article from '../views/Article.vue'
 
 // 注册路由
 Vue.use(VueRouter)
@@ -23,7 +24,8 @@ const routes = [
     // 二级路由规则
     children: [
       // 欢迎页面
-      { path: '/', component: Welcome }
+      { path: '/', component: Welcome },
+      { path: '/article', component: Article }
     ]
   },
   // 通配规则，匹配以上规则没处理的 路径
