@@ -6,6 +6,7 @@ import Vue from 'vue'
 import Login from '../views/Login.vue'
 import Home from '../views/Home.vue'
 import Welcome from '../views/Welcome.vue'
+import auth from '@/utils/auth'
 
 // 注册路由
 Vue.use(VueRouter)
@@ -28,6 +29,17 @@ const routes = [
 
 // 初始化路由实例
 const router = new VueRouter({ routes })
+// 路由实例的函数，添加一个导航守卫，回调函数在每次路由跳转前会执行
+// to 跳转的目标，路由对象。
+// from 来自哪个路由，路由对象。
+// next() 放行，你访问哪里你就去哪里，next('/login')  拦截到登录路由
+router.beforeEach((to, from, next) => {
+  // 如果你访问的路径是除去登录外的路径，并且你此时没有登录，拦截到登录页面。
+  // 其他情况一概放行。
+  const user = auth.getUser()
+  if (to.path !== '/login' && !user.token) return next('/login')
+  next()
+})
 
 // 导出路由实例
 export default router
