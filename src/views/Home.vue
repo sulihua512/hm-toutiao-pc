@@ -2,16 +2,18 @@
  <!-- 全屏容器 -->
   <el-container class="home-container">
     <!-- 侧边栏 -->
-    <el-aside class="my-aside" width="200px">
+    <el-aside class="my-aside" :width="isOpen?'200px':'64px'">
         <!-- logo -->
-        <div class="logo"></div>
+        <div class="logo" :class="{minLogo:!isOpen}"></div>
         <!-- 导航菜单 -->
         <el-menu
       style="border-right:none"
       default-active="1"
       background-color="#002233"
       text-color="#fff"
-      active-text-color="#ffd04b">
+      active-text-color="#ffd04b"
+       :collapse="!isOpen"
+       :collapse-transition="false">
         <el-menu-item index="1">
           <i class="el-icon-s-home"></i>
           <span slot="title">首页</span>
@@ -47,7 +49,7 @@
       <!-- 头部内容 -->
       <el-header class="my-header">
           <!-- 图标 -->
-        <span class="el-icon-s-fold icon"></span>
+        <span class="el-icon-s-fold icon" @click="toggleAside()"></span>
         <!-- 文字 -->
         <span class="text">江苏传智播客科技教育有限公司</span>
         <el-dropdown class="my-dropdown">
@@ -78,7 +80,14 @@ export default {
   name: 'my-home',
   data () {
     return {
-
+    // 侧边栏是不是展开状态，默认展开
+      isOpen: true
+    }
+  },
+  methods: {
+    // 切换侧边栏展开与收起
+    toggleAside () {
+      this.isOpen = !this.isOpen
     }
   }
 }
@@ -125,6 +134,10 @@ export default {
             width: 100%;
             height: 60px;
             background: #002244 url(../assets/logo_admin.png) no-repeat center /140px auto;
+        }
+        .minLogo {
+            background-image: url(../assets/logo_admin_01.png);
+            background-size: 36px auto;
         }
     }
 }
