@@ -38,8 +38,8 @@ export default {
     return {
     // 登录表单数据对象
       loginForm: {
-        mobile: '',
-        code: ''
+        mobile: '13911111111',
+        code: '246810'
       },
       // 校验规则对象
       rules: {
@@ -63,7 +63,13 @@ export default {
         // valid 代表整体表单是否校验成功
         if (valid) {
           // 校验成功，进行登录
-          alert('submit!')
+          // alert('submit!')
+          this.$http.post('/authorizations', this.loginForm).then(() => {
+            // 跳转到首页
+            this.$router.push('/')
+          }).catch(() => {
+            this.$message.error('手机号或验证码错误')
+          })
         } else {
           console.log('error submit!!')
           return false

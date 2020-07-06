@@ -4,8 +4,16 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 // 导入路由实例
 import router from './router/index.js'
-Vue.use(ElementUI)
+// 导入配置好的axios
+// 完整路径：./api/index.js
+// 简写  ./api  index.js是默认索引文件可以省略
+// 使用相对路径要根据目录结构进行书写，如果目录结构一旦发生改变，线路路径的层级也会改变。
+// 使用绝对路径就没问题，@ 代表src的绝对路径。补充：vue-cli下才可使用。
+import axios from '@/api'
+// 挂载axios
+Vue.prototype.$http = axios
 
+Vue.use(ElementUI)
 
 Vue.config.productionTip = false
 
