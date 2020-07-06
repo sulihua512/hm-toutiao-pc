@@ -52,7 +52,7 @@
         <span class="el-icon-s-fold icon" @click="toggleAside()"></span>
         <!-- 文字 -->
         <span class="text">江苏传智播客科技教育有限公司</span>
-        <el-dropdown class="my-dropdown">
+        <el-dropdown class="my-dropdown" @command="handleClick">
             <span class="el-dropdown-link">
                 <!-- 头像 -->
                 <img class="user-avatar" :src="userPhoto">
@@ -61,8 +61,10 @@
                 <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item icon="el-icon-setting">个人设置</el-dropdown-item>
-                <el-dropdown-item icon="el-icon-unlock">退出登录</el-dropdown-item>
+                <!-- <el-dropdown-item icon="el-icon-setting" @click.native="setting()">个人设置</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-unlock" @click.native="logout()">退出登录</el-dropdown-item> -->
+                 <el-dropdown-item command="setting" icon="el-icon-setting">个人设置</el-dropdown-item>
+                 <el-dropdown-item command="logout" icon="el-icon-unlock">退出登录</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
       </el-header>
@@ -100,6 +102,21 @@ export default {
     // 切换侧边栏展开与收起
     toggleAside () {
       this.isOpen = !this.isOpen
+    },
+    setting () {
+      this.$router.push('/setting')
+    },
+    logout () {
+      // 1.清除用户信息
+      auth.delUser()
+      // 2.跳转到登录页面
+      this.$router.push('/login')
+    },
+    // 点击下拉选项处理函数
+    handleClick (command) {
+      // console.log(command)
+      // command 正好就是你要执行的函数名称
+      this[command]()
     }
   }
 }
