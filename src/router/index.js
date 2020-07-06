@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import Vue from 'vue'
 // 准备路由配置对象
 import Login from '../views/Login.vue'
+import Home from '../views/Home.vue'
 
 // 注册路由
 Vue.use(VueRouter)
@@ -11,7 +12,9 @@ Vue.use(VueRouter)
 // 定义路由规则
 const routes = [
   // 登录
-  { path: '/login', component: Login }
+  { path: '/login', component: Login },
+  // 首页
+  { path: '/', component: Home }
 ]
 
 // 初始化路由实例
