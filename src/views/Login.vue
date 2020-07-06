@@ -22,6 +22,9 @@
 </template>
 
 <script>
+// 导入工具模块
+import auth from '@/utils/auth'
+
 export default {
   name: 'my-login',
   data () {
@@ -64,7 +67,10 @@ export default {
         if (valid) {
           // 校验成功，进行登录
           // alert('submit!')
-          this.$http.post('/authorizations', this.loginForm).then(() => {
+          this.$http.post('/authorizations', this.loginForm).then((res) => {
+            // 存储用户信息 res === {data:{message:'提示信息',data:'用户信息对象'}}
+            // res.data 是响应主体，响应主体才是后台返回的数据
+            auth.setUser(res.data.data)
             // 跳转到首页
             this.$router.push('/')
           }).catch(() => {
