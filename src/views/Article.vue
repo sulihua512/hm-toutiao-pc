@@ -10,7 +10,9 @@ export default {
   created () {
     this.$http.get('articles').then((res) => {
       console.log(res)
-    })
+    }).catch(() =>
+      console.log('请求失败')
+    )
   }
 }
 </script>
