@@ -10,7 +10,7 @@
         </el-breadcrumb>
       </div>
       <!-- 表单 -->
-      <el-form label-width="80px">
+      <el-form label-width="80px" size="small">
         <el-form-item label="状态：">
           <el-radio-group v-model="reqParams.status">
             <el-radio :label="null">全部</el-radio>
@@ -32,9 +32,17 @@
           </el-select>
         </el-form-item>
         <el-form-item label="日期：">
-
+          <el-date-picker
+      v-model="dateArr"
+      type="daterange"
+      range-separator="至"
+      start-placeholder="开始日期"
+      end-placeholder="结束日期">
+    </el-date-picker>
         </el-form-item>
-        <el-form-item></el-form-item>
+       <el-form-item>
+          <el-button type="primary">筛选</el-button>
+        </el-form-item>
       </el-form>
     </el-card>
     <!-- 筛选结果区域 -->
@@ -50,10 +58,15 @@ export default {
       reqParams: {
         // 当字段的值为null的时候，这个不会发送给后台
         status: null,
-        channel_id: null
+        channel_id: null,
+        begin_pubdate: null,
+        end_pubdate: null
       },
       // 频道下拉选项数据
-      channelOptions: [{ value: 1000, label: '前端' }]
+      channelOptions: [{ value: 1000, label: '前端' }],
+      // 时间范围 [起始日期,结束日期]
+      // 待实现：当日期控件选择了日期后动态给 reqParams 中 begin_pubdate end_pubdate 赋值
+      dateArr: []
     }
   },
   created () {
