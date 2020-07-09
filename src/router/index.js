@@ -11,6 +11,7 @@ import NotFound from '../views/404.vue'
 import Article from '../views/Article.vue'
 import Image from '../views/Image.vue'
 import Publish from '../views/Publish.vue'
+import Comment from '../views/Comment.vue'
 
 // 注册路由
 Vue.use(VueRouter)
@@ -30,6 +31,7 @@ const routes = [
       { path: '/article', component: Article },
       { path: '/image', component: Image },
       { path: '/publish', component: Publish },
+      { path: '/comment', component: Comment }
     ]
   },
   // 通配规则，匹配以上规则没处理的 路径
