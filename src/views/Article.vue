@@ -19,7 +19,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="频道：">
-          <el-select v-model="reqParams.channel_id" placeholder="请选择">
+          <el-select  @change="changeChannel" clearable v-model="reqParams.channel_id" placeholder="请选择">
             <el-option
               v-for="item in channelOptions"
              :key="item.id"
@@ -34,11 +34,13 @@
       type="daterange"
       range-separator="至"
       start-placeholder="开始日期"
-      end-placeholder="结束日期">
+      end-placeholder="结束日期"
+       @change="changeDate"
+       value-format="yyyy-MM-dd">
     </el-date-picker>
         </el-form-item>
        <el-form-item>
-          <el-button type="primary">筛选</el-button>
+          <el-button type="primary" @click="filterArticle()">筛选</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -120,6 +122,33 @@ export default {
     this.getArticles()
   },
   methods:{
+    // 选择频道
+    changeChannel (value) {
+      // 清空的时候值是 '' 不符合后台要求，你应该改成 null  代表查询全部
+      if (value === '') this.reqParams.channel_id = null
+    },
+    // 筛选文章
+    filterArticle () {
+      // 回到第一页
+      this.reqParams.page = 1
+      // 根据reqParams进行进行查处
+      this.getArticles()
+    },
+    // 改变日期
+    changeDate (dateArr) {
+      // 根据选择的时间，给起始和结束数据赋值。
+      // 现在日期格式是标准日期格式 Date 格式。
+      // 后台接口要是 字符串格式 的日期  例如： `2020-03-01`
+      // 在给 起始和结束数据赋值前  转换格式为 字符串日期格式 value-format="yyyy-MM-dd"
+      // 如果 执行清空日期操作  dateArr === null
+      if (dateArr) {
+        this.reqParams.begin_pubdate = dateArr[0]
+        this.reqParams.end_pubdate = dateArr[1]
+      } else {
+        this.reqParams.begin_pubdate = null
+        this.reqParams.end_pubdate = null
+      }
+    },
     // 进行分页
     changePager(newPage){
       // 根据新的页码，重新获取列表数据即可，进行渲染
