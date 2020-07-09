@@ -25,19 +25,22 @@
             @current-change="changePager">
                 </el-pagination>
             </el-tab-pane>
-            <el-tab-pane label="粉丝画像" name="img">2</el-tab-pane>
+            <el-tab-pane label="粉丝画像" name="img">
+                <div ref="main" style="width: 600px;height:400px;"></div>
+            </el-tab-pane>
             </el-tabs>
       </el-card>
   </div>
 </template>
 
 <script>
+import echarts from 'echarts'
 export default {
   name: 'my-fans',
   data(){
       return {
         // tabs的当前激活选项卡的name属性值
-        activeName: 'list',
+        activeName: 'img',
         // 测试头像
         // circleUrl:'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
         reqParams:{
@@ -51,7 +54,62 @@ export default {
   created (){
       this.getFansList()
   },
-  methods:{
+  // dom生成完毕后会执行的回调函数（钩子函数）
+  mounted () {
+    this.initBar()
+  },
+  methods: {
+    // 初始化 柱状图
+    async initBar () {
+      const myChart = echarts.init(this.$refs.main)
+      const option = {
+        color: ['#3398DB'],
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: 'category',
+            // x坐标的刻度说明文字
+            data: [],
+            axisTick: {
+              alignWithLabel: true
+            }
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ],
+        series: [
+          {
+            name: '直接访问',
+            type: 'bar',
+            barWidth: '60%',
+            // 图表的每一个柱子需要数据
+            data: []
+          }
+        ]
+      }
+      myChart.setOption(option)
+      // 1. 获取后台统计数据
+      const { data: { data } } = await this.$http.get('statistics/followers')
+       // 2. 修改配置项中的数据
+       for (const key in data.age) {
+        option.xAxis[0].data.push(key.replace('le', '小于').replace('gt', '大于') + '岁')
+        option.series[0].data.push(data.age[key])
+      }
+    },
     // 分页
     changePager (newPage) {
       this.reqParams.page = newPage
