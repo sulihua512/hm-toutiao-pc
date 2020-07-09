@@ -2,6 +2,7 @@
 import VueRouter from 'vue-router'
 // 导入vue
 import Vue from 'vue'
+import auth from '../utils/auth'
 // 准备路由配置对象
 // 导入组件(路由懒加载)
 const Login = () => import('../views/Login.vue')
