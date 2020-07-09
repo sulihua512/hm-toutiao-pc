@@ -1,7 +1,7 @@
 <template>
   <div class='my-cover'>
       <div class="btn_img" @click="openDialog">
-           <img src="../assets/default.png" />
+            <img :src="coverImageUrl" />
       </div>
       <!-- 对话框 -->
       <el-dialog :visible.sync="dialogVisible" width="720px">
@@ -47,7 +47,7 @@
         </el-tabs>
         <span slot="footer" class="dialog-footer">
              <el-button @click="dialogVisible = false">取 消</el-button>
-             <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+             <el-button type="primary" @click="confirmImage()">确 定</el-button>
         </span>
       </el-dialog>
   </div>
@@ -81,10 +81,35 @@ export default {
                 Authorization: `Bearer ${auth.getUser().token}`
             },
             // 上传的图片地址
-            uploadImageUrl: null
+            uploadImageUrl: null,
+             // 封面地址
+            coverImageUrl: '../assets/default.png'
         }
     },
     methods:{
+        // 确认图片
+        confirmImage(){
+             // 知道现在激活的tab选项卡是谁
+            if(this.activeName ==='image'){
+                // 素材库
+                if(!this.selectedImageUrl){
+                     return this.$message.warning('请先选中一张图片')
+                }
+                // 预览
+                this.coverImageUrl = this.selectedImageUrl
+            
+            }
+            if(this.activeName === 'upload'){
+                // 上传图片
+                if (!this.uploadImageUrl) {
+                    return this.$message.warning('请先上传一张图片')
+                }
+                // 预览
+                this.coverImageUrl = this.uploadImageUrl
+            }
+            // 关闭对话框
+            this.dialogVisible = false
+        },
         // 上传图片
         uploadSuccess (res) {
             // 预览 + 提示
@@ -96,6 +121,10 @@ export default {
             this.selectedImageUrl = url
         },
         openDialog(){
+            // 重置数据
+            this.selectedImageUrl = null
+            this.uploadImageUrl = null
+            this.activeName = 'image'
             this.dialogVisible = true;
             this.getImages()
         },
