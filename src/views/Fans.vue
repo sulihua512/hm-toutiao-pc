@@ -40,7 +40,7 @@ export default {
   data(){
       return {
         // tabs的当前激活选项卡的name属性值
-        activeName: 'img',
+        activeName: 'list',
         // 测试头像
         // circleUrl:'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
         reqParams:{
