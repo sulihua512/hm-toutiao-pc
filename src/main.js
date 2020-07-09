@@ -10,6 +10,11 @@ import router from './router/index.js'
 // 使用相对路径要根据目录结构进行书写，如果目录结构一旦发生改变，线路路径的层级也会改变。
 // 使用绝对路径就没问题，@ 代表src的绝对路径。补充：vue-cli下才可使用。
 import axios from '@/api'
+
+// 使用自己封装的插件
+import plugin from '@/utils/plugin'
+Vue.use(plugin)
+
 // 挂载axios
 Vue.prototype.$http = axios
 
