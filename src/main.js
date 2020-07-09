@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import '@/styles/index.less'
 // 导入路由实例
 import router from './router/index.js'
 // 导入配置好的axios

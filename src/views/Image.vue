@@ -9,7 +9,17 @@
               <el-radio-button :label="false">全部</el-radio-button>
               <el-radio-button :label="true">收藏</el-radio-button>
           </el-radio-group>
-          <el-button type='success' size="small" style="float:right">添加收藏</el-button>
+          <el-button type='success' size="small" style="float:right" @click="openAddImgDialog()">添加收藏</el-button>
+         <el-dialog title="提示" :visible.sync="dialogVisible" width="300px">
+ <el-upload
+        class="avatar-uploader"
+       action="http://ttapi.research.itcast.cn/mp/v1_0/user/images"   name="image"  :headers="headers"
+        :show-file-list="false"
+        :on-success="uploadImageSuccess">
+        <img v-if="imageUrl" :src="imageUrl" class="avatar">
+        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+      </el-upload>
+         </el-dialog>
       </div>
       <!-- 图片列表 -->
       <div class="img_list">
@@ -35,6 +45,7 @@
 </template>
 
 <script>
+import auth from '../utils/auth'
 export default {
   name: 'my-image',
   data(){
@@ -49,13 +60,43 @@ export default {
         // 素材列表
         images:[],
         // 总条数
-        total:0
+        total:0,
+        dialogVisible:false,
+        // 上传成功后图片地址（预览）
+        imageUrl: null,
+         // 上传组件的请求头  (data中声明的数据)
+      headers: {
+        Authorization: `Bearer ${auth.getUser().token}`
+      }
      }
   },
   created(){
       this.getImages()
   },
   methods:{
+    // 上传图片成功
+    uploadImageSuccess (res) {
+      // 预览
+      this.imageUrl = res.data.url
+      // 提示
+      this.$message.success('上传素材成功')
+      // 3s后
+      window.setTimeout(() => {
+        // 关闭对话框
+        this.dialogVisible = false
+        // 更新第一页
+        this.reqParams.page = 1
+        this.getImages()
+        // 考虑：重新打开对话框的时候，看到加号图标，而不是之前预览的图片
+        this.imageUrl = null
+      }, 3000)
+    },
+    // 打开添加素材对话框
+    openAddImgDialog () {
+      // 1. 准备对话框
+      // 2. 才能打开它
+      this.dialogVisible = true
+    },
     // 删除图片素材
     deleteImage (id) {
       this.$confirm('此操作将永久删除该图片素材, 是否继续?', '温馨提示', {
@@ -146,4 +187,5 @@ export default {
         }
     }
 }
+ 
 </style>
