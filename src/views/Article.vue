@@ -19,14 +19,18 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="频道：">
-          <el-select  @change="changeChannel" clearable v-model="reqParams.channel_id" placeholder="请选择">
+          <!-- <el-select  @change="changeChannel" clearable v-model="reqParams.channel_id" placeholder="请选择">
             <el-option
               v-for="item in channelOptions"
              :key="item.id"
               :label="item.name"
               :value="item.id"
             ></el-option>
-          </el-select>
+          </el-select> -->
+           <!-- 自己封装的频道组件 -->
+          <!-- <my-channel :value="reqParams.channel_id" @input="reqParams.channel_id=$event"></my-channel> -->
+          <!-- 简写： -->
+         <my-channel v-model="reqParams.channel_id"></my-channel>
         </el-form-item>
         <el-form-item label="日期：">
           <el-date-picker
@@ -106,8 +110,8 @@ export default {
         per_page:20,
         page:1
       },
-      // 频道下拉选项数据
-      channelOptions: [],
+      // // 频道下拉选项数据
+      // channelOptions: [],
       // 时间范围 [起始日期,结束日期]
       // 待实现：当日期控件选择了日期后动态给 reqParams 中 begin_pubdate end_pubdate 赋值
       dateArr: [],
@@ -147,11 +151,11 @@ export default {
     editArticle (id) {
       this.$router.push(`/publish?id=${id}`)
     },
-    // 选择频道
-    changeChannel (value) {
-      // 清空的时候值是 '' 不符合后台要求，你应该改成 null  代表查询全部
-      if (value === '') this.reqParams.channel_id = null
-    },
+    // // 选择频道
+    // changeChannel (value) {
+    //   // 清空的时候值是 '' 不符合后台要求，你应该改成 null  代表查询全部
+    //   if (value === '') this.reqParams.channel_id = null
+    // },
     // 筛选文章
     filterArticle () {
       // 回到第一页
@@ -187,11 +191,11 @@ export default {
         // 总条数
        this.total = data.total_count
     },
-     // 获取频道下拉选项数据
-    async getChannelOptions(){
-     const { data: { data } } = await this.$http.get('channels')
-      this.channelOptions = data.channels
-    }
+    //  // 获取频道下拉选项数据
+    // async getChannelOptions(){
+    //  const { data: { data } } = await this.$http.get('channels')
+    //   this.channelOptions = data.channels
+    // }
   }
 }
 </script>
