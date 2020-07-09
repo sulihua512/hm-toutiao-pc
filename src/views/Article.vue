@@ -44,7 +44,7 @@
     </el-card>
     <!-- 筛选结果区域 -->
     <el-card  style="margin-top:20px">
-      <div slot="header">根据筛选条件共查询到 0 条结果：</div>
+      <div slot="header">根据筛选条件共查询到{{total}}条结果：</div>
        <!-- 表格 -->
       <el-table :data="articles">
         <el-table-column label="封面">
@@ -75,7 +75,16 @@
           </el-table-column> 
       </el-table>
       <!-- 分页 -->
-     
+     <el-pagination
+  background
+  style="margin-top:20px"
+  layout="prev, pager, next"
+  :total="total"
+  :page-size="reqParams.per_page"
+  :current-page="reqParams.page"
+   @current-change="changePager"
+  >
+</el-pagination>
     </el-card>
   </div>
 </template>
@@ -91,7 +100,9 @@ export default {
         status: null,
         channel_id: null,
         begin_pubdate: null,
-        end_pubdate: null
+        end_pubdate: null,
+        per_page:20,
+        page:1
       },
       // 频道下拉选项数据
       channelOptions: [],
@@ -99,7 +110,9 @@ export default {
       // 待实现：当日期控件选择了日期后动态给 reqParams 中 begin_pubdate end_pubdate 赋值
       dateArr: [],
        // 文章列表
-      articles:[]
+      articles:[],
+       // 文章总条数
+      total:0
     }
   },
   created () {
@@ -107,10 +120,18 @@ export default {
     this.getArticles()
   },
   methods:{
+    // 进行分页
+    changePager(newPage){
+      // 根据新的页码，重新获取列表数据即可，进行渲染
+      this.reqParams.page = newPage
+      this.getArticles()
+    },
     // 获取文章列表数据
     async getArticles(){
       const {data:{data}} = await this.$http.get('articles',{params:this.reqParams})
        this.articles = data.results
+        // 总条数
+       this.total = data.total_count
     },
      // 获取频道下拉选项数据
     async getChannelOptions(){
