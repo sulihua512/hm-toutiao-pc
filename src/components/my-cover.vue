@@ -55,6 +55,8 @@
 
 <script>
 import auth from '../utils/auth'
+import defaultImg from '@/assets/default.png'
+
 export default {
     name:'my-cover',
     data () {
@@ -83,7 +85,7 @@ export default {
             // 上传的图片地址
             uploadImageUrl: null,
              // 封面地址
-            coverImageUrl: '../assets/default.png'
+            coverImageUrl: defaultImg
         }
     },
     methods:{
