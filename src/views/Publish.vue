@@ -35,8 +35,8 @@
           <my-channel v-model="articleForm.channel_id"></my-channel>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary">发布文章</el-button>
-          <el-button>存入草稿</el-button>
+          <el-button type="primary" @click="addArticle(false)">发布文章</el-button>
+          <el-button @click="addArticle(true)">存入草稿</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -82,6 +82,18 @@ export default {
             ['image']
           ]
         }
+      }
+    }
+  },
+  methods:{
+     // 添加文章
+    async addArticle(draft){
+      try{
+        await this.$http.post(`articles?draft=${draft}`, this.articleForm)
+        this.$message.success(draft ? '存入草稿成功' : '发布文章成功')
+        this.$router.push('/article')
+      }catch(e){
+        this.$message.error("操作失败")
       }
     }
   }
