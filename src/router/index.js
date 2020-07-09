@@ -10,6 +10,7 @@ import auth from '@/utils/auth'
 import NotFound from '../views/404.vue'
 import Article from '../views/Article.vue'
 import Image from '../views/Image.vue'
+import Publish from '../views/Publish.vue'
 
 // 注册路由
 Vue.use(VueRouter)
@@ -27,7 +28,8 @@ const routes = [
       // 欢迎页面
       { path: '/', component: Welcome },
       { path: '/article', component: Article },
-      { path: '/image', component: Image }
+      { path: '/image', component: Image },
+      { path: '/publish', component: Publish },
     ]
   },
   // 通配规则，匹配以上规则没处理的 路径
