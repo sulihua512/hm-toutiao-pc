@@ -74,7 +74,7 @@
         </el-table-column> 
         <el-table-column prop="pubdate" label="发布时间"> </el-table-column> 
         <el-table-column prop="address" label="操作" width="120px">
-          <template>
+          <template slot-scope="scope">
               <el-button @click="editArticle(scope.row.id)" type="primary" icon="el-icon-edit" circle plain></el-button>
                <el-button @click="deleteArticle(scope.row.id)"  type="danger" icon="el-icon-delete" circle plain></el-button>
           </template>
@@ -122,7 +122,7 @@ export default {
     }
   },
   created () {
-    this.getChannelOptions()
+    // this.getChannelOptions()
     this.getArticles()
   },
   methods:{
