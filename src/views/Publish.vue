@@ -57,8 +57,22 @@ export default {
         },
         channel_id: null
       },
-        // 富文本配置对象
-      editorOption: {}
+       // 富文本配置对象
+      editorOption: {
+        // 占位配置
+        placeholder: '',
+        modules: {
+          // 配置工具栏
+          toolbar: [
+            ['bold', 'italic', 'underline', 'strike'],
+            ['blockquote', 'code-block'],
+            [{ header: 1 }, { header: 2 }],
+            [{ list: 'ordered' }, { list: 'bullet' }],
+            [{ indent: '-1' }, { indent: '+1' }],
+            ['image']
+          ]
+        }
+      }
     }
   }
 }
