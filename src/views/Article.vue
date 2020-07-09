@@ -22,9 +22,9 @@
           <el-select v-model="reqParams.channel_id" placeholder="请选择">
             <el-option
               v-for="item in channelOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+             :key="item.id"
+              :label="item.name"
+              :value="item.id"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -73,7 +73,7 @@ export default {
         end_pubdate: null
       },
       // 频道下拉选项数据
-      channelOptions: [{ value: 1000, label: '前端' }],
+      channelOptions: [],
       // 时间范围 [起始日期,结束日期]
       // 待实现：当日期控件选择了日期后动态给 reqParams 中 begin_pubdate end_pubdate 赋值
       dateArr: [],
@@ -82,10 +82,14 @@ export default {
     }
   },
   created () {
-    // 测试获取后台数据
-    // this.$http.get('articles')
-    //   .then(res => console.log(res.data))
-    //   .catch(() => console.log('请求失败'))
+    this.getChannelOptions()
+  },
+  methods:{
+     // 获取频道下拉选项数据
+    async getChannelOptions(){
+     const { data: { data } } = await this.$http.get('channels')
+      this.channelOptions = data.channels
+    }
   }
 }
 </script>
