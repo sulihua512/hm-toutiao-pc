@@ -71,7 +71,7 @@
         <el-table-column prop="pubdate" label="发布时间"> </el-table-column> 
         <el-table-column prop="address" label="操作" width="120px">
           <template>
-              <el-button type="primary" icon="el-icon-edit" circle plain></el-button>
+              <el-button @click="editArticle(scope.row.id)" type="primary" icon="el-icon-edit" circle plain></el-button>
                <el-button type="danger" icon="el-icon-delete" circle plain></el-button>
           </template>
           </el-table-column> 
@@ -122,6 +122,10 @@ export default {
     this.getArticles()
   },
   methods:{
+    // 编辑文章
+    editArticle (id) {
+      this.$router.push(`/publish?id=${id}`)
+    },
     // 选择频道
     changeChannel (value) {
       // 清空的时候值是 '' 不符合后台要求，你应该改成 null  代表查询全部
