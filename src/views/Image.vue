@@ -25,7 +25,10 @@
       <el-pagination
         background
         layout="prev, pager, next"
-        :total="1000">
+        :total="total"
+        :page-size="reqParams.per_page"
+        :current-page="reqParams.page"
+        @current-change="changePager">
       </el-pagination>
        </el-card>
   </div>
@@ -41,20 +44,28 @@ export default {
         // 默认查询全局 false 收藏 true
         collect: false,
         page: 1,
-        per_page: 10
+        per_page: 6,
       },
         // 素材列表
-        images:[]
+        images:[],
+        // 总条数
+        total:0
      }
   },
   created(){
       this.getImages()
   },
   methods:{
+    // 切换分页
+    changePager(newPage){
+        this.reqParams.page = newPage
+        this.getImages()
+    },
      // 获取素材列表
     async getImages () {
       const { data: { data } } = await this.$http.get('user/images', { params: this.reqParams })
       this.images = data.results
+      this.total = data.total_count
       }
   }
 }
