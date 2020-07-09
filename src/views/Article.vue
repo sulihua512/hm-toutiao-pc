@@ -48,9 +48,9 @@
        <!-- 表格 -->
       <el-table :data="articles">
         <el-table-column prop="address" label="封面"> </el-table-column> 
-        <el-table-column prop="address" label="地标题"> </el-table-column> 
+        <el-table-column prop="title" label="标题"> </el-table-column> 
         <el-table-column prop="address" label="状态"> </el-table-column> 
-        <el-table-column prop="address" label="发布时间"> </el-table-column> 
+        <el-table-column prop="pubdate" label="发布时间"> </el-table-column> 
         <el-table-column prop="address" label="操作"> </el-table-column> 
       </el-table>
       <!-- 分页 -->
@@ -83,8 +83,14 @@ export default {
   },
   created () {
     this.getChannelOptions()
+    this.getArticles()
   },
   methods:{
+    // 获取文章列表数据
+    async getArticles(){
+      const {data:{data}} = await this.$http.get('articles',{params:this.reqParams})
+       this.articles = data.results
+    },
      // 获取频道下拉选项数据
     async getChannelOptions(){
      const { data: { data } } = await this.$http.get('channels')
