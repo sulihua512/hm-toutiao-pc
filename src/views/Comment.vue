@@ -16,8 +16,8 @@
         </el-table-column>
         <el-table-column label="操作">
             <template slot-scope="scope">
-                <el-button size="small" type="success" v-if="scope.row.comment_status">打开评论</el-button>
-                <el-button size="small" type="danger" v-else>关闭评论</el-button>
+                <el-button size="small" type="success" v-if="scope.row.comment_status" @click="toggleStatus(scope.row)">打开评论</el-button>
+                <el-button size="small" type="danger" v-else @click="toggleStatus(scope.row)">关闭评论</el-button>
             </template>
         </el-table-column>
       </el-table>
@@ -53,6 +53,22 @@ export default {
       this.getComments()
   },
   methods:{
+        // 切换评论状态
+    async toggleStatus (row) {
+      // row 当前行数据，其实理解成功 comments数组遍历的时候，每一项数据对象
+      try {
+        const {
+          data: { data }
+        } = await this.$http.put(`comments/status?article_id=${row.id}`, {
+          allow_comment: !row.comment_status
+        })
+        this.$message.success(data.allow_comment ? '打开评论成功' : '关闭评论成功')
+        // 更新当前数据中的状态，需要更新视图
+        row.comment_status = data.allow_comment
+      } catch (e) {
+        this.$messge.error('操作失败')
+      }
+    },
       // 分页
       changePager(newPage){
           this.reqParams.page = newPage
